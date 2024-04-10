@@ -55,8 +55,7 @@ ROOT_URLCONF = 'ProgramaAcademico.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,12 +79,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'programa',
         'USER': 'root',
-        'PASSWORD': '97620040',
+        'PASSWORD': '260818',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '3305',
     }
 }
-
 
 
 # Password validation
