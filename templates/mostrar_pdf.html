@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mostrar PDF</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  </head>
+  <body>
+    <div id="contenido">
+      {% if pdf %} {% for pdfs in pdf %}
+      <div class="pagina">
+        <div class="Tittle">
+          <h3>I.</h3>
+          <h3 class="ttittle">IDENTIFICACIÓN.</h3>
+        </div>
+        <div class="div-tabla">
+          <table class="tidentificacion">
+            <tr>
+              <td class="tdt">A. Nombre de la Materia</td>
+              <td>:{{ pdfs.materia }}</td>
+            </tr>
+            <tr>
+              <td class="tdt">B. Código</td>
+              <td>:{{ pdfs.codigo }}</td>
+            </tr>
+            <tr>
+              <td class="tdt">C. Condición</td>
+              <td>:{{ pdfs.condicion }}</td>
+            </tr>
+            <tr>
+              <td class="tdt">D. Carrera</td>
+              <td>:{{ pdfs.carrera }}</td>
+            </tr>
+            <tr>
+              <td class="tdt">E. Curso</td>
+              <td>:{{ pdfs.curso }}</td>
+            </tr>
+            <tr>
+              <td class="tdt">F. Semestre</td>
+              <td>:{{ pdfs.semestre }}</td>
+            </tr>
+            <tr>
+              <td class="tdt">G. Requisitos</td>
+              <td>:{{ pdfs.requisitos }}</td>
+            </tr>
+            <tr>
+              <td class="tdt">H. Carga horaria semanal</td>
+              <td>:{{ pdfs.carga_horaria_semanal }}</td>
+            </tr>
+            <tr>
+              <td class="tdt">I. Carga horaria semestral</td>
+              <td>:{{ pdfs.carga_horaria_semestral }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="Tittle">
+          <h3>II.</h3>
+          <h3 class="ttittle">FUNDAMENTACIÓN.</h3>
+        </div>
+        <p class="parrafo">{{ pdfs.fundamentacion }}</p>
+        <div class="Tittle">
+          <h3>III.</h3>
+          <h3 class="ttittle">OBJETIVOS.</h3>
+        </div>
+        <p class="plista">{{ pdfs.objetivos }}</p>
+        <div class="Tittle">
+          <h3>IV.</h3>
+          <h3 class="ttittle">CONTENIDO.</h3>
+        </div>
+        <p class="plista">{{ pdfs.contenido }}</p>
+        <div class="Tittle">
+          <h3>V.</h3>
+          <h3 class="ttittle">METODOLOGÍA.</h3>
+        </div>
+        <p class="plista">{{ pdfs.metodologia }}</p>
+        <div class="Tittle">
+          <h3>VI.</h3>
+          <h3 class="ttittle">EVALUACIÓN.</h3>
+        </div>
+        <p class="parrafo">{{ pdfs.evaluacion }}</p>
+        <div class="Tittle">
+          <h3>VII.</h3>
+          <h3 class="ttittle">BIBLIOGRAFÍA.</h3>
+        </div>
+        <p class="plista">{{ pdfs.bibliografia }}</p>
+      {% endfor %} {% endif %}
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        function calcularAlturaPrecisa(elemento) {
+    var rect = elemento.getBoundingClientRect();
+    return rect.bottom - rect.top;
+}
+
+window.onload = function () {
+    var contenido = document.getElementById("contenido");
+    var elementos = contenido.querySelectorAll("table, .parrafo, .plista, .Tittle"); // Considera los párrafos y tablas como elementos de página
+    var alturaPagina = 1122; // Altura aproximada de una página A4 en píxeles
+    var alturaActual = 0;
+    var paginaActual = 0;
+    var paginaActualElemento = document.createElement("div"); // Nuevo div para la primera página
+    paginaActualElemento.className = "pagina";
+    contenido.appendChild(paginaActualElemento); // Agregar el nuevo div al contenido
+
+    for (var i = 0; i < elementos.length; i++) {
+        var alturaElemento = calcularAlturaPrecisa(elementos[i]);
+
+        // Comprobar si el elemento cabe en la página actual
+        if (alturaActual + alturaElemento <= alturaPagina) {
+            // Mover el elemento a la página actual
+            paginaActualElemento.appendChild(elementos[i]);
+            alturaActual += alturaElemento;
+        } else {
+            // Agregar un nuevo div para la próxima página
+            var nuevaPaginaElemento = document.createElement("div");
+            nuevaPaginaElemento.className = "pagina";
+            contenido.appendChild(nuevaPaginaElemento);
+            paginaActualElemento = nuevaPaginaElemento; // Cambiar al nuevo div como página actual
+            alturaActual = alturaElemento;
+            paginaActual++;
+            paginaActualElemento.appendChild(elementos[i]);
+        }
+    }
+};
+});
+     
+    </script>
+  </body>
+</html>
